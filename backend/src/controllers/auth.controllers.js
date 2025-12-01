@@ -17,6 +17,8 @@ export const signup = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
+    console.log("we are in sign up: ", user);
+
     if (user) res.status(400).json({ message: "Email already exists" });
 
     //hash password
