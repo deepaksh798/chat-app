@@ -5,9 +5,9 @@ import toast from "react-hot-toast";
 
 const MessageInput = () => {
   const [text, setText] = useState("");
-  const [imagePreview, setImagePreview] = useState<any>([]);
+  const [imagePreview, setImagePreview] = useState<any>(null);
   const fileInputRef = useRef<any>(null);
-  const { sendMessage }: any = useChatStore();
+  const { sendMessages }: any = useChatStore();
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
@@ -32,9 +32,10 @@ const MessageInput = () => {
   const handleSendMessage = async (e: any) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
+    console.log("text : ", text);
 
     try {
-      await sendMessage({
+      await sendMessages({
         text: text.trim(),
         image: imagePreview,
       });
