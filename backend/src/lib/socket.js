@@ -7,7 +7,10 @@ const server = http.createServer(app); // here we create an HTTP server, which i
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: [
+      "https://real-time-chat-application.deepak-sh798.workers.dev",
+      "http://localhost:5173",
+    ],
   },
 });
 
