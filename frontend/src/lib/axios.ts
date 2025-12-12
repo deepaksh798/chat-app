@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  // baseURL: import.meta.env.VITE_APP_BASE_URL + "/api" || "http://localhost:5000/api",
-  baseURL: import.meta.env.VITE_APP_BASE_URL + "/api",
+  baseURL:
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5000/api"
+      : "/api",
   withCredentials: true, // send cookies with every request
 });
