@@ -1,11 +1,43 @@
-import { Server } from "socket.io";
-import http from "http";
 import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import authRoutes from "../routes/auth.route.js";
+import messageRoutes from "../routes/message.route.js";
 
 const app = express();
-app.set("trust proxy", 1); //
-const server = http.createServer(app); // here we create an HTTP server, which is needed for Socket.IO
 
+// IMPORTANT for Render (reverse proxy)
+app.set("trust proxy", 1);
+
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: [
+      "https://real-time-chat-application.deepak-sh798.workers.dev",
+      "http://localhost:5173",
+    ],
+    credentials: true,
+  })
+);
+
+// Simple test route
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
+
+// API routes
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+
+// HTTP server for Express + Socket.io
+const server = http.createServer(app);
+
+// Socket setup
 const io = new Server(server, {
   cors: {
     origin: [
